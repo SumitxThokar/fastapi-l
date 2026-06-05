@@ -1,0 +1,22 @@
+[project]
+name = "fastapi-l"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "SumitxThokar", email = "sumitxthokar@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.136.3",
+    "jinja2>=3.1.6",
+    "pydantic[email]>=2.13.4",
+    "sqlalchemy>=2.0.50",
+]
+
+[project.scripts]
+fastapi-l = "fastapi_l:main"
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
