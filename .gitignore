@@ -9,6 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
+*.db
 blog.db
 
 *.jpg
+
+.env

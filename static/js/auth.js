@@ -54,7 +54,7 @@ export function getToken() {
 
 export function setToken(token) {
   localStorage.setItem("access_token", token);
-}
+} 
 
 export function clearUserCache() {
   currentUser = null;

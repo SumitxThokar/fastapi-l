@@ -1,408 +1,663 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Site Info -->
-    {% if title %}
-      <title>Blogsss  — {{ title }}</title>
-    {% else %}
-      <title>Blogsss </title>
-    {% endif %}
-    <meta name="description" content="Blogsss 's Personal Blog">
-    <meta name="author" content="Blogsss ">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Blogsss ">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-    <meta property="og:image:alt" content="">
+  <!-- Site Info -->
+  {% if title %}
+  <title>Blogsss — {{ title }}</title>
+  {% else %}
+  <title>Blogsss </title>
+  {% endif %}
+  <meta name="description" content="Blogsss 's Personal Blog">
+  <meta name="author" content="Blogsss ">
 
-    <!-- Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Open Graph Tags -->
+  <meta property="og:title" content="Blogsss ">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:alt" content="">
 
-    <!-- Custom Fonts: Cormorant Garamond (display) + DM Sans (body) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap"
-          rel="stylesheet">
+  <!-- Preconnect for Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-          crossorigin="anonymous">
+  <!-- Custom Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap"
+    rel="stylesheet">
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css')}}">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <meta name="theme-color" content="#1a1a2e">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css')}}">
 
-    <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static',path='icons/favicon.ico') }}" sizes="any">
-    <link rel="icon" href="{{ url_for('static',path='icons/icon.svg')}}" type="image/svg+xml">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static',path='icons/icon.png')}}">
-    <link rel="manifest" href="/static/site.webmanifest">
+  <meta name="theme-color" content="#1a1a2e">
 
-    <style>
-      /* ── Design Tokens ──────────────────────────────── */
-      :root {
-        --ink:        #1c1c1e;
-        --ink-soft:   #6e6e73;
-        --ink-faint:  #aeaeb2;
-        --canvas:     #faf9f7;
-        --surface:    #ffffff;
-        --accent:     #b5838d;
-        --accent-alt: #6d6875;
-        --border:     #e8e4df;
-        --nav-h:      68px;
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static',path='icons/favicon.ico') }}" sizes="any">
+  <link rel="icon" href="{{ url_for('static',path='icons/icon.svg')}}" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static',path='icons/icon.png')}}">
+  <link rel="manifest" href="/static/site.webmanifest">
 
-        --font-display: 'Cormorant Garamond', Georgia, serif;
-        --font-body:    'DM Sans', system-ui, sans-serif;
+  <style>
+    /* ── Design Tokens ──────────────────────────────── */
+    :root {
+      --ink: #1c1c1e;
+      --ink-soft: #6e6e73;
+      --ink-faint: #aeaeb2;
+      --canvas: #faf9f7;
+      --surface: #ffffff;
+      --accent: #b5838d;
+      --accent-alt: #6d6875;
+      --border: #e8e4df;
+      --nav-h: 68px;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    [data-bs-theme="dark"] {
+      --ink: #f0ede8;
+      --ink-soft: #a8a39c;
+      --ink-faint: #6b6560;
+      --canvas: #141210;
+      --surface: #1e1b18;
+      --accent: #d4a5ad;
+      --accent-alt: #9d94a8;
+      --border: #2c2824;
+    }
+
+    /* ── Base ───────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink);
+      background-color: var(--canvas);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* ── Navbar ─────────────────────────────────────── */
+    .site-header .navbar {
+      height: var(--nav-h);
+      background-color: var(--surface) !important;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+    }
+
+    [data-bs-theme="dark"] .site-header .navbar {
+      background-color: rgba(30, 27, 24, 0.92) !important;
+    }
+
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--ink) !important;
+      letter-spacing: 0.01em;
+      line-height: 1;
+    }
+
+    .navbar-brand .accent-dot {
+      color: var(--accent);
+    }
+
+    .navbar-brand:hover {
+      opacity: 0.75;
+    }
+
+    .nav-link {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--ink-soft) !important;
+      letter-spacing: 0.03em;
+      padding: 0.4rem 0.75rem !important;
+      border-radius: 6px;
+      transition: color 0.18s, background 0.18s;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: var(--ink) !important;
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    /* ── Nav Buttons ────────────────────────────────── */
+    .btn-nav-outline {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      background: transparent;
+      border-radius: 8px;
+      padding: 0.4rem 1rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-nav-outline:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn-nav-fill {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.4rem 1rem;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-nav-fill:hover {
+      background: var(--accent-alt);
+      border-color: var(--accent-alt);
+      color: #fff;
+    }
+
+    /* ── User Badge ─────────────────────────────────── */
+    .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+      background: var(--canvas);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+    }
+    .user-badge .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .user-badge span {
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── Theme Dropdown ─────────────────────────────── */
+    .dropdown-menu {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+      padding: 0.4rem;
+      min-width: 130px;
+    }
+
+    .dropdown-item {
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+      border-radius: 6px;
+      padding: 0.4rem 0.8rem;
+    }
+
+    .dropdown-item:hover {
+      background: color-mix(in srgb, var(--accent) 12%, transparent);
+      color: var(--ink);
+    }
+
+    .dropdown-toggle {
+      font-size: 0.8125rem;
+      color: var(--ink-soft) !important;
+      padding: 0.4rem 0.6rem !important;
+    }
+
+    /* ── Main Layout ────────────────────────────────── */
+    main.container {
+      padding-top: calc(var(--nav-h) + 3rem);
+      padding-bottom: 4rem;
+      min-height: 80vh;
+    }
+
+    /* ── Sidebar ────────────────────────────────────── */
+    .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-card h5 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.01em;
+    }
+
+    .sidebar-card .sidebar-desc {
+      font-size: 0.8125rem;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-card .list-group-item {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+      padding: 0.6rem 0.1rem;
+      border-left: 0;
+      border-right: 0;
+      transition: color 0.15s;
+    }
+
+    .sidebar-card .list-group-item:first-child {
+      border-top: 0;
+    }
+
+    .sidebar-card .list-group-item:last-child {
+      border-bottom: 0;
+    }
+
+    .sidebar-card .list-group-item::before {
+      content: '↗';
+      margin-right: 0.5rem;
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border) !important;
+      background: var(--surface) !important;
+    }
+
+    footer p {
+      font-size: 0.8125rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.02em;
+    }
+
+    footer .heart {
+      color: var(--accent);
+      display: inline-block;
+      animation: heartbeat 2.2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+
+      0%,
+      100% {
+        transform: scale(1);
       }
 
-      [data-bs-theme="dark"] {
-        --ink:        #f0ede8;
-        --ink-soft:   #a8a39c;
-        --ink-faint:  #6b6560;
-        --canvas:     #141210;
-        --surface:    #1e1b18;
-        --accent:     #d4a5ad;
-        --accent-alt: #9d94a8;
-        --border:     #2c2824;
+      50% {
+        transform: scale(1.25);
+      }
+    }
+
+    /* ── Page entry fade ────────────────────────────── */
+    main {
+      animation: fadeUp 0.45s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
       }
 
-      /* ── Base ───────────────────────────────────────── */
-      *, *::before, *::after { box-sizing: border-box; }
-
-      html { scroll-behavior: smooth; }
-
-      body {
-        font-family: var(--font-body);
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--ink);
-        background-color: var(--canvas);
-        transition: background-color 0.3s ease, color 0.3s ease;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      /* ── Navbar ─────────────────────────────────────── */
-      .site-header .navbar {
-        height: var(--nav-h);
-        background-color: var(--surface) !important;
-        border-bottom: 1px solid var(--border);
-        backdrop-filter: saturate(180%) blur(12px);
-        -webkit-backdrop-filter: saturate(180%) blur(12px);
-      }
+    /* ── Scrollbar (webkit) ─────────────────────────── */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
 
-      [data-bs-theme="dark"] .site-header .navbar {
-        background-color: rgba(30, 27, 24, 0.92) !important;
-      }
+    ::-webkit-scrollbar-track {
+      background: var(--canvas);
+    }
 
-      .navbar-brand {
-        font-family: var(--font-display);
-        font-size: 1.45rem;
-        font-weight: 500;
-        color: var(--ink) !important;
-        letter-spacing: 0.01em;
-        line-height: 1;
-      }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 9px;
+    }
 
-      .navbar-brand .accent-dot { color: var(--accent); }
-      .navbar-brand:hover { opacity: 0.75; }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent);
+    }
 
-      .nav-link {
-        font-size: 0.875rem;
-        font-weight: 400;
-        color: var(--ink-soft) !important;
-        letter-spacing: 0.03em;
-        padding: 0.4rem 0.75rem !important;
-        border-radius: 6px;
-        transition: color 0.18s, background 0.18s;
-      }
+    /* ── Navbar toggler ─────────────────────────────── */
+    .navbar-toggler {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
 
-      .nav-link:hover, .nav-link.active {
-        color: var(--ink) !important;
-        background: color-mix(in srgb, var(--accent) 10%, transparent);
-      }
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+  </style>
+</head>
 
-      /* ── Nav Buttons ────────────────────────────────── */
-      .btn-nav-outline {
-        font-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        color: var(--ink);
-        border: 1px solid var(--border);
-        background: transparent;
-        border-radius: 8px;
-        padding: 0.4rem 1rem;
-        transition: all 0.2s;
-        text-decoration: none;
-        display: inline-block;
-      }
-      .btn-nav-outline:hover {
-        background: var(--accent);
-        color: #fff;
-        border-color: var(--accent);
-      }
+<body class="d-flex flex-column min-vh-100">
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="light">
+      <div class="container">
+        <!-- Brand -->
+        <a class="navbar-brand me-4" href="{{ url_for('home') }}">
+          Blogsss <span class="accent-dot">.</span>
+        </a>
 
-      .btn-nav-fill {
-        font-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        color: #fff;
-        background: var(--accent);
-        border: 1px solid var(--accent);
-        border-radius: 8px;
-        padding: 0.4rem 1rem;
-        transition: all 0.2s;
-        text-decoration: none;
-        display: inline-block;
-      }
-      .btn-nav-fill:hover {
-        background: var(--accent-alt);
-        border-color: var(--accent-alt);
-        color: #fff;
-      }
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggle"
+          aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      /* ── Theme Dropdown ─────────────────────────────── */
-      .dropdown-menu {
-        border: 1px solid var(--border);
-        background: var(--surface);
-        border-radius: 10px;
-        box-shadow: 0 8px 30px rgba(0,0,0,0.09);
-        padding: 0.4rem;
-        min-width: 130px;
-      }
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav me-auto">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
+          </div>
 
-      .dropdown-item {
-        font-size: 0.8125rem;
-        color: var(--ink-soft);
-        border-radius: 6px;
-        padding: 0.4rem 0.8rem;
-      }
-      .dropdown-item:hover {
-        background: color-mix(in srgb, var(--accent) 12%, transparent);
-        color: var(--ink);
-      }
-
-      .dropdown-toggle {
-        font-size: 0.8125rem;
-        color: var(--ink-soft) !important;
-        padding: 0.4rem 0.6rem !important;
-      }
-
-      /* ── Main Layout ────────────────────────────────── */
-      main.container {
-        padding-top: calc(var(--nav-h) + 3rem);
-        padding-bottom: 4rem;
-        min-height: 80vh;
-      }
-
-      /* ── Sidebar ────────────────────────────────────── */
-      .sidebar-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 1.5rem 1.6rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .sidebar-card h5 {
-        font-family: var(--font-display);
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--ink);
-        margin-bottom: 0.35rem;
-        letter-spacing: 0.01em;
-      }
-
-      .sidebar-card .sidebar-desc {
-        font-size: 0.8125rem;
-        color: var(--ink-soft);
-        margin-bottom: 1rem;
-      }
-
-      .sidebar-card .list-group-item {
-        background: transparent;
-        border-color: var(--border);
-        color: var(--ink-soft);
-        font-size: 0.875rem;
-        padding: 0.6rem 0.1rem;
-        border-left: 0;
-        border-right: 0;
-        transition: color 0.15s;
-      }
-      .sidebar-card .list-group-item:first-child { border-top: 0; }
-      .sidebar-card .list-group-item:last-child  { border-bottom: 0; }
-      .sidebar-card .list-group-item::before {
-        content: '↗';
-        margin-right: 0.5rem;
-        color: var(--accent);
-        font-size: 0.75rem;
-      }
-
-      /* ── Footer ─────────────────────────────────────── */
-      footer {
-        border-top: 1px solid var(--border) !important;
-        background: var(--surface) !important;
-      }
-
-      footer p {
-        font-size: 0.8125rem;
-        color: var(--ink-faint);
-        letter-spacing: 0.02em;
-      }
-
-      footer .heart {
-        color: var(--accent);
-        display: inline-block;
-        animation: heartbeat 2.2s ease-in-out infinite;
-      }
-
-      @keyframes heartbeat {
-        0%, 100% { transform: scale(1); }
-        50%       { transform: scale(1.25); }
-      }
-
-      /* ── Page entry fade ────────────────────────────── */
-      main { animation: fadeUp 0.45s ease both; }
-
-      @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(14px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      /* ── Scrollbar (webkit) ─────────────────────────── */
-      ::-webkit-scrollbar { width: 7px; }
-      ::-webkit-scrollbar-track { background: var(--canvas); }
-      ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 9px; }
-      ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-      /* ── Navbar toggler ─────────────────────────────── */
-      .navbar-toggler {
-        border: 1px solid var(--border);
-        border-radius: 8px;
-      }
-      .navbar-toggler:focus { box-shadow: none; }
-    </style>
-  </head>
-
-  <body class="d-flex flex-column min-vh-100">
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="light">
-        <div class="container">
-          <!-- Brand -->
-          <a class="navbar-brand me-4" href="{{ url_for("home") }}">
-            Blogsss <span class="accent-dot">.</span>
-          </a>
-
-          <button class="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarToggle"
-                  aria-controls="navbarToggle"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav me-auto">
-              <a class="nav-link active" aria-current="page" href="{{ url_for("home") }}">Home</a>
-            </div>
-
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav d-flex align-items-center gap-2">
-              <a class="btn-nav-outline" href="#">Login</a>
-              <a class="btn-nav-fill" href="#">Register</a>
-
-              <!-- Theme toggle -->
-              <div class="nav-item dropdown ms-1">
-                <a class="nav-link dropdown-toggle px-2"
-                   href="#"
-                   role="button"
-                   id="bd-theme"
-                   data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                  <span id="bd-theme-text">🌗</span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
-                  <li><button class="dropdown-item" type="button" data-bs-theme-value="light">🌝 Light</button></li>
-                  <li><button class="dropdown-item" type="button" data-bs-theme-value="dark">🌚 Dark</button></li>
-                  <li><button class="dropdown-item" type="button" data-bs-theme-value="auto">🌗 Auto</button></li>
-                </ul>
+          <!-- Navbar Right Side -->
+          <div class="navbar-nav d-flex align-items-center gap-2">
+            <div id="loggedInNav" class="d-none">
+              <button class="btn-nav-fill" type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">New Post</button>
+              <div class="user-badge ms-2 me-2">
+                <div class="avatar" id="userAvatarInitial"></div>
+                <span id="usernameDisplay"></span>
               </div>
+              <button class="btn-nav-outline" type="button" id="logoutBtn">Logout</button>
+            </div>
+            <!-- Shown when logged out -->
+            <div id="loggedOutNav">
+              <a class="btn-nav-outline mb-2 mb-md-0 me-md-2" href="{{ url_for('login_page') }}">Login</a>
+              <a class="btn-nav-fill mb-2 mb-md-0 me-md-3" href="{{ url_for('register_page') }}">Register</a>
+            </div>
+
+            <!-- Theme toggle -->
+            <div class="nav-item dropdown ms-1">
+              <a class="nav-link dropdown-toggle px-2" href="#" role="button" id="bd-theme" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span id="bd-theme-text">🌗</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme">
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="light">🌝 Light</button></li>
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="dark">🌚 Dark</button></li>
+                <li><button class="dropdown-item" type="button" data-bs-theme-value="auto">🌗 Auto</button></li>
+              </ul>
             </div>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
-    <main role="main" class="container">
-      <div class="row g-4">
-        <div class="col-md-8">
-          {% block content %}
-          {% endblock content %}
+  <main role="main" class="container">
+    <div class="row g-4">
+      <div class="col-md-8">
+        {% block content %}
+        {% endblock content %}
+      </div>
+      <aside class="col-md-4">
+        <div class="sidebar-card">
+          <h5>About</h5>
+          <p class="sidebar-desc">
+            Thoughts, stories, and ideas by Blogsss .
+          </p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Latest Posts</li>
+            <li class="list-group-item">Announcements</li>
+            <li class="list-group-item">Calendars</li>
+            <li class="list-group-item">etc</li>
+          </ul>
         </div>
-        <aside class="col-md-4">
-          <div class="sidebar-card">
-            <h5>About</h5>
-            <p class="sidebar-desc">
-              Thoughts, stories, and ideas by Blogsss .
-            </p>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Latest Posts</li>
-              <li class="list-group-item">Announcements</li>
-              <li class="list-group-item">Calendars</li>
-              <li class="list-group-item">etc</li>
-            </ul>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="mt-auto py-3">
+    <div class="container text-center">
+      <p class="mb-0">
+        Made with <span class="heart">♥</span> by Blogsss &nbsp;·&nbsp; © <span id="year"></span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Create Post Modal -->
+  <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createPostModalLabel">New Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="createPostForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" required>
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">Content</label>
+              <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+            </div>
           </div>
-        </aside>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Post</button>
+          </div>
+        </form>
       </div>
-    </main>
-
-    <footer class="mt-auto py-3">
-      <div class="container text-center">
-        <p class="mb-0">
-          Made with <span class="heart">♥</span> by Blogsss  &nbsp;·&nbsp; © <span id="year"></span>
-        </p>
+    </div>
+  </div>
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="successModalLabel">Success</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="successMessage" class="fs-5"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
-    </footer>
+    </div>
+  </div>
+  <!-- Error Modal -->
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="errorModalLabel">Error</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="errorMessage" class="fs-5"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block modals %}{% endblock modals %}
+  <!-- Footer Year -->
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 
-    <!-- Footer Year -->
-    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-            crossorigin="anonymous"></script>
+  <!-- Dark Mode Toggle -->
+  <script>
+    const setTheme = (theme) => {
+      if (theme === 'auto') {
+        document.documentElement.setAttribute('data-bs-theme',
+          window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      } else {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      }
+      localStorage.setItem('theme', theme);
 
-    <!-- Dark Mode Toggle -->
-    <script>
-      const setTheme = (theme) => {
-        const resolved = theme === 'auto'
-          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-          : theme;
+      // Update button text
+      const themeText = { light: '🌝 Light', dark: '🌚 Dark', auto: '🌗 Auto' };
+      document.getElementById('bd-theme-text').textContent = themeText[theme];
+    };
 
-        document.documentElement.setAttribute('data-bs-theme', resolved);
+    // Set theme on click
+    document.querySelectorAll('[data-bs-theme-value]').forEach(button => {
+      button.addEventListener('click', () => setTheme(button.getAttribute('data-bs-theme-value')));
+    });
 
-        // Keep navbar in sync
-        const navbar = document.querySelector('.navbar');
-        if (navbar) navbar.setAttribute('data-bs-theme', resolved);
+    // Initialize
+    setTheme(localStorage.getItem('theme') || 'auto');
+  </script>
+  <!-- Auth State Management -->
+  <script type="module">
+    import { getCurrentUser, logout } from '/static/js/auth.js';
 
-        localStorage.setItem('theme', theme);
+    // Update navbar based on auth state
+    async function updateAuthUI() {
+      const user = await getCurrentUser();
+      const loggedInNav = document.getElementById('loggedInNav');
+      const loggedOutNav = document.getElementById('loggedOutNav');
 
-        const icons = { light: '🌝', dark: '🌚', auto: '🌗' };
-        document.getElementById('bd-theme-text').textContent = icons[theme];
-      };
+      if (user) {
+        loggedInNav.classList.remove('d-none');
+        loggedInNav.classList.add('d-flex');
+        loggedOutNav.classList.add('d-none');
+        document.getElementById('usernameDisplay').textContent = user.email;
+        const avatarEl = document.getElementById('userAvatarInitial');
+        if (avatarEl && user.email) {
+          avatarEl.textContent = user.email.charAt(0);
+        }
+      } else {
+        loggedInNav.classList.add('d-none');
+        loggedInNav.classList.remove('d-flex');
+        loggedOutNav.classList.remove('d-none');
+      }
+    }
 
-      document.querySelectorAll('[data-bs-theme-value]').forEach(button => {
-        button.addEventListener('click', () => setTheme(button.getAttribute('data-bs-theme-value')));
-      });
+    // Logout handler
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', logout);
+    }
 
-      setTheme(localStorage.getItem('theme') || 'auto');
-    </script>
-  </body>
+    updateAuthUI();
+    setTheme(localStorage.getItem('theme') || 'auto');
+  </script>
+
+  <!-- Create Post Form Handler -->
+  <script type="module">
+    import {
+      getErrorMessage,
+      hideModal,
+      showModal,
+    } from "/static/js/utils.js";
+
+    const createForm = document.getElementById("createPostForm");
+
+    createForm.addEventListener("submit", async (event) => {
+      // Stop default form submission - we'll handle it with JavaScript
+      event.preventDefault();
+
+      // Gather form values into a plain object {title: "...", content: "..."}
+      const formData = new FormData(createForm);
+      const postData = Object.fromEntries(formData.entries());
+
+      // TEMPORARY - hardcoded until authorization (Tutorial 11)
+      postData.user_id = 4;
+
+      try {
+        // POST to our API as JSON
+        const response = await fetch("/api/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById("successMessage").textContent =
+            `Post "${data.title}" created successfully!`;
+
+          hideModal("createPostModal");
+          showModal("successModal");
+
+          // Clear form                
+          createForm.reset();
+
+          // Reload page after modal is hidden to show new post
+          document
+            .getElementById("successModal")
+            .addEventListener(
+              "hidden.bs.modal",
+              () => {
+                window.location.reload();
+              },
+              { once: true },
+            );
+        } else {
+          const error = await response.json();
+          document.getElementById("errorMessage").textContent =
+            getErrorMessage(error);
+
+          hideModal("createPostModal");
+          showModal("errorModal");
+        }
+      } catch (error) {
+        document.getElementById("errorMessage").textContent =
+          "Network error. Please check your connection and try again.";
+        showModal("errorModal");
+      }
+    });
+  </script>
+  {% block scripts %}
+  {% endblock scripts %}
+</body>
+
 </html>
