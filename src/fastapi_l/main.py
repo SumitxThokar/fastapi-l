@@ -6,15 +6,16 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.exception_handlers import http_exception_handler, request_validation_exception_handler
 from typing import Annotated
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from .models import User, Post
 from .database import Base, engine, get_db
-
 from .routers import posts, users
 
 from contextlib import asynccontextmanager
+
+
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
@@ -37,13 +38,30 @@ app.include_router(posts.router, prefix = "/api/posts", tags = ["posts"])
 
 @app.get("/", include_in_schema=False, name = "home")
 @app.get("/posts", include_in_schema=False, name = "posts")
-async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)]):
-    result = await db.execute(select(Post).options(selectinload(Post.author)).order_by(Post.date_posted.desc()))
+async def home(request: Request, db: Annotated[AsyncSession, Depends(get_db)], limit: int = 4):
+    count_result = await db.execute(select(func.count()).select_from(Post))
+    total = count_result.scalar() or 0
+
+    result = await db.execute(
+        select(Post)
+        .options(selectinload(Post.author))
+        .order_by(Post.date_posted.desc())
+        .limit(limit)
+    )
     posts = result.scalars().all()
+    
+    has_more = len(posts) < total
+
     return templates.TemplateResponse(
         request, 
         "home.html", 
-        {"posts":posts, "title":"Home"})
+        {
+            "posts": posts, 
+            "title": "Home",
+            "limit": limit,
+            "has_more": has_more
+        }
+    )
 
 @app.get("/posts/{post_id}", include_in_schema=False)
 async def get_post_page(request: Request, post_id:int, db: Annotated[AsyncSession, Depends(get_db)]):
@@ -61,19 +79,39 @@ async def get_post_page(request: Request, post_id:int, db: Annotated[AsyncSessio
 async def user_posts_page(
     request: Request,
     user_id: int,
-    db: Annotated[AsyncSession, Depends(get_db)]):
+    db: Annotated[AsyncSession, Depends(get_db)],
+    limit: int = 4
+):
     
     result = await db.execute(select(User).where(User.id == user_id))
     user = result.scalars().first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found.")
     
-    result = await db.execute(select(Post).options(selectinload(Post.author)).where(Post.user_id == user_id).order_by(Post.date_posted.desc()))
+    count_result = await db.execute(select(func.count()).select_from(Post).where(Post.user_id == user_id))
+    total = count_result.scalar() or 0
+
+    result = await db.execute(
+        select(Post)
+        .options(selectinload(Post.author))
+        .where(Post.user_id == user_id)
+        .order_by(Post.date_posted.desc())
+        .limit(limit)
+    )
     posts = result.scalars().all()
+    
+    has_more = len(posts) < total
+
     return templates.TemplateResponse(
         request,
         "user_posts.html",
-        {"posts":posts,"user":user, "title":f"{user.username}'s Posts"}        
+        {
+            "posts": posts,
+            "user": user, 
+            "title": f"{user.username}'s Posts",
+            "limit": limit,
+            "has_more": has_more
+        }        
     )
 
 @app.get('/login', include_in_schema=False)
@@ -91,7 +129,32 @@ async def register_page(request: Request):
         "register.html",
         {"title":"Register"}
     )
+@app.get("/forgot-password", include_in_schema=False)
+async def forgot_password_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "forgot_password.html",
+        {"title": "Forgot Password"},
+    )
     
+@app.get('/reset-password', include_in_schema=False)
+async def reset_password_page(request: Request):
+    response =  templates.TemplateResponse(
+        request,
+        "reset_password.html",
+        {"title":"Reset Password"}
+    )
+    response.headers["Referrer-Policy"] = "no-referrer"
+    return response
+
+@app.get('/account', include_in_schema=False)
+async def account_page(request: Request):
+    return templates.TemplateResponse(
+        request,
+        "account.html",
+        {"title":"Account"},
+    )
+  
 @app.exception_handler(StarletteHTTPException)
 async def general_http_exception_handler(request:Request, exception: StarletteHTTPException):
     

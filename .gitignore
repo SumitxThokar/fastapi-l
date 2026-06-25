@@ -15,3 +15,6 @@ blog.db
 *.jpg
 
 .env
+
+populate_images/
+populate.py

@@ -4,6 +4,17 @@ import jwt
 from fastapi.security import OAuth2PasswordBearer
 from pwdlib import PasswordHash
 from .config import settings
+from typing import Annotated
+from fastapi import Depends, HTTPException, status
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+from .models import User, Post
+
+from .database import get_db
+
+import hashlib
+import secrets
+
 
 password_hash = PasswordHash.recommended()
 
@@ -15,6 +26,11 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return password_hash.verify(plain_password, hashed_password)
 
+def generate_reset_token() -> str:
+    return secrets.token_urlsafe(32)
+
+def hash_reset_token(token: str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
 
 def create_access_token(data:dict, expires_delta: timedelta | None=None)-> str:
     
@@ -48,3 +64,43 @@ def verify_access_token(token: str) -> str | None:
         return None
     else: 
         return payload.get("sub")
+
+async def get_current_user(
+    token: Annotated[str, Depends(oauth2_scheme)],
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> User:
+    
+    user_id = verify_access_token(token)
+    if user_id is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, 
+                            detail="Invalid or Expired token",
+                            headers={"WWW-Authenticate":"Bearer"},
+                            )
+    
+    try:
+        user_id_int = int(user_id)
+    
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired token.",
+            headers={"WWW-Authenticate":"Bearer"},
+        )
+    
+    result = await db.execute(
+        select(User).where(User.id == user_id_int)
+    )
+    
+    user = result.scalars().first()
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found.",
+            headers={"WWW-Authenticate":"Bearer"},
+        )
+    
+    return user
+
+
+CurrentUser = Annotated[User, Depends(get_current_user)]

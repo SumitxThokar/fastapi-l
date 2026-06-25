@@ -25,9 +25,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <!-- Custom Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+  <!-- Custom Fonts: Outfit (display) + Inter (body) -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Outfit:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- Bootstrap CSS -->
@@ -37,347 +37,18 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='/css/main.css')}}">
 
-  <meta name="theme-color" content="#1a1a2e">
+  <meta name="theme-color" content="#d4618c">
 
   <!-- Favicon -->
   <link rel="icon" href="{{ url_for('static',path='icons/favicon.ico') }}" sizes="any">
   <link rel="icon" href="{{ url_for('static',path='icons/icon.svg')}}" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static',path='icons/icon.png')}}">
   <link rel="manifest" href="/static/site.webmanifest">
-
-  <style>
-    /* ── Design Tokens ──────────────────────────────── */
-    :root {
-      --ink: #1c1c1e;
-      --ink-soft: #6e6e73;
-      --ink-faint: #aeaeb2;
-      --canvas: #faf9f7;
-      --surface: #ffffff;
-      --accent: #b5838d;
-      --accent-alt: #6d6875;
-      --border: #e8e4df;
-      --nav-h: 68px;
-
-      --font-display: 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-    }
-
-    [data-bs-theme="dark"] {
-      --ink: #f0ede8;
-      --ink-soft: #a8a39c;
-      --ink-faint: #6b6560;
-      --canvas: #141210;
-      --surface: #1e1b18;
-      --accent: #d4a5ad;
-      --accent-alt: #9d94a8;
-      --border: #2c2824;
-    }
-
-    /* ── Base ───────────────────────────────────────── */
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      font-weight: 400;
-      color: var(--ink);
-      background-color: var(--canvas);
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* ── Navbar ─────────────────────────────────────── */
-    .site-header .navbar {
-      height: var(--nav-h);
-      background-color: var(--surface) !important;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: saturate(180%) blur(12px);
-      -webkit-backdrop-filter: saturate(180%) blur(12px);
-    }
-
-    [data-bs-theme="dark"] .site-header .navbar {
-      background-color: rgba(30, 27, 24, 0.92) !important;
-    }
-
-    .navbar-brand {
-      font-family: var(--font-display);
-      font-size: 1.45rem;
-      font-weight: 500;
-      color: var(--ink) !important;
-      letter-spacing: 0.01em;
-      line-height: 1;
-    }
-
-    .navbar-brand .accent-dot {
-      color: var(--accent);
-    }
-
-    .navbar-brand:hover {
-      opacity: 0.75;
-    }
-
-    .nav-link {
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--ink-soft) !important;
-      letter-spacing: 0.03em;
-      padding: 0.4rem 0.75rem !important;
-      border-radius: 6px;
-      transition: color 0.18s, background 0.18s;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--ink) !important;
-      background: color-mix(in srgb, var(--accent) 10%, transparent);
-    }
-
-    /* ── Nav Buttons ────────────────────────────────── */
-    .btn-nav-outline {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      border: 1px solid var(--border);
-      background: transparent;
-      border-radius: 8px;
-      padding: 0.4rem 1rem;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-nav-outline:hover {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    .btn-nav-fill {
-      font-size: 0.8125rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: #fff;
-      background: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: 8px;
-      padding: 0.4rem 1rem;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-nav-fill:hover {
-      background: var(--accent-alt);
-      border-color: var(--accent-alt);
-      color: #fff;
-    }
-
-    /* ── User Badge ─────────────────────────────────── */
-    .user-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.25rem 0.75rem 0.25rem 0.25rem;
-      background: var(--canvas);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--ink-soft);
-    }
-    .user-badge .avatar {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-    .user-badge span {
-      max-width: 150px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ── Theme Dropdown ─────────────────────────────── */
-    .dropdown-menu {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
-      padding: 0.4rem;
-      min-width: 130px;
-    }
-
-    .dropdown-item {
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-      border-radius: 6px;
-      padding: 0.4rem 0.8rem;
-    }
-
-    .dropdown-item:hover {
-      background: color-mix(in srgb, var(--accent) 12%, transparent);
-      color: var(--ink);
-    }
-
-    .dropdown-toggle {
-      font-size: 0.8125rem;
-      color: var(--ink-soft) !important;
-      padding: 0.4rem 0.6rem !important;
-    }
-
-    /* ── Main Layout ────────────────────────────────── */
-    main.container {
-      padding-top: calc(var(--nav-h) + 3rem);
-      padding-bottom: 4rem;
-      min-height: 80vh;
-    }
-
-    /* ── Sidebar ────────────────────────────────────── */
-    .sidebar-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.5rem 1.6rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sidebar-card h5 {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 0.35rem;
-      letter-spacing: 0.01em;
-    }
-
-    .sidebar-card .sidebar-desc {
-      font-size: 0.8125rem;
-      color: var(--ink-soft);
-      margin-bottom: 1rem;
-    }
-
-    .sidebar-card .list-group-item {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--ink-soft);
-      font-size: 0.875rem;
-      padding: 0.6rem 0.1rem;
-      border-left: 0;
-      border-right: 0;
-      transition: color 0.15s;
-    }
-
-    .sidebar-card .list-group-item:first-child {
-      border-top: 0;
-    }
-
-    .sidebar-card .list-group-item:last-child {
-      border-bottom: 0;
-    }
-
-    .sidebar-card .list-group-item::before {
-      content: '↗';
-      margin-right: 0.5rem;
-      color: var(--accent);
-      font-size: 0.75rem;
-    }
-
-    /* ── Footer ─────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border) !important;
-      background: var(--surface) !important;
-    }
-
-    footer p {
-      font-size: 0.8125rem;
-      color: var(--ink-faint);
-      letter-spacing: 0.02em;
-    }
-
-    footer .heart {
-      color: var(--accent);
-      display: inline-block;
-      animation: heartbeat 2.2s ease-in-out infinite;
-    }
-
-    @keyframes heartbeat {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.25);
-      }
-    }
-
-    /* ── Page entry fade ────────────────────────────── */
-    main {
-      animation: fadeUp 0.45s ease both;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ── Scrollbar (webkit) ─────────────────────────── */
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--canvas);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 9px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--accent);
-    }
-
-    /* ── Navbar toggler ─────────────────────────────── */
-    .navbar-toggler {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-
-    .navbar-toggler:focus {
-      box-shadow: none;
-    }
-  </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
   <header class="site-header">
-    <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="light">
+    <nav class="navbar navbar-expand-md fixed-top">
       <div class="container">
         <!-- Brand -->
         <a class="navbar-brand me-4" href="{{ url_for('home') }}">
@@ -397,13 +68,13 @@
           <!-- Navbar Right Side -->
           <div class="navbar-nav d-flex align-items-center gap-2">
             <div id="loggedInNav" class="d-none">
-              <button class="btn-nav-fill" type="button" data-bs-toggle="modal" data-bs-target="#createPostModal">New Post</button>
-              <div class="user-badge ms-2 me-2">
-                <div class="avatar" id="userAvatarInitial"></div>
-                <span id="usernameDisplay"></span>
-              </div>
-              <button class="btn-nav-outline" type="button" id="logoutBtn">Logout</button>
+              <button class="btn-nav-fill me-2" type="button" data-bs-toggle="modal"
+                data-bs-target="#createPostModal">New
+                Post</button>
+
+              <a class="btn-nav-outline" href="{{ url_for('account_page') }}" id="accountBtn">Account</a>
             </div>
+
             <!-- Shown when logged out -->
             <div id="loggedOutNav">
               <a class="btn-nav-outline mb-2 mb-md-0 me-md-2" href="{{ url_for('login_page') }}">Login</a>
@@ -555,7 +226,7 @@
   </script>
   <!-- Auth State Management -->
   <script type="module">
-    import { getCurrentUser, logout } from '/static/js/auth.js';
+    import { getCurrentUser } from '/static/js/auth.js';
 
     // Update navbar based on auth state
     async function updateAuthUI() {
@@ -596,6 +267,7 @@
       hideModal,
       showModal,
     } from "/static/js/utils.js";
+    import { getToken } from "/static/js/auth.js";
 
     const createForm = document.getElementById("createPostForm");
 
@@ -607,15 +279,15 @@
       const formData = new FormData(createForm);
       const postData = Object.fromEntries(formData.entries());
 
-      // TEMPORARY - hardcoded until authorization (Tutorial 11)
-      postData.user_id = 4;
-
       try {
+        const token = getToken();
+
         // POST to our API as JSON
         const response = await fetch("/api/posts", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           },
           body: JSON.stringify(postData),
         });

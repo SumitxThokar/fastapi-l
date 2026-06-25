@@ -22,7 +22,6 @@ class UserPrivateResponse(UserResponse):
 class UserUpdate(BaseModel):
     username: str | None = Field(default= None, min_length=1, max_length=30)
     email: EmailStr | None = Field(default= None,max_length=120)
-    image_file: str | None = Field(default = None, min_length=1, max_length=200 )
  
 class Token(BaseModel):
     access_token: str
@@ -34,8 +33,8 @@ class PostBase(BaseModel):
     content: str = Field(min_length=1)
 
 class PostCreate(PostBase):
-    user_id: int 
-
+    pass
+    
 class PostUpdate(BaseModel):
     title: str | None = Field(default=None, min_length=1, max_length=50)
     content: str | None = Field(default=None, min_length=1)
@@ -48,3 +47,24 @@ class PostResponse(PostBase):
     date_posted: datetime
     user_id: int
     author: UserResponse
+    
+class PaginatedPostResponse(BaseModel):
+    posts: list[PostResponse]
+    
+    total: int
+    skip: int
+    limit: int
+    has_more: bool
+    
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr = Field(max_length=120)
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str
+    new_password: str = Field(min_length=8)
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=8)
