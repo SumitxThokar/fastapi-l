@@ -10,22 +10,16 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from .models import User, Post
-from .database import Base, engine, get_db
+from .database import engine, get_db
 from .routers import posts, users
 
 from contextlib import asynccontextmanager
 
-
-
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # startup
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
     yield
     # shutdown
     await engine.dispose()
-
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="static"), name ="static")
