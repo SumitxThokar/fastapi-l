@@ -29,4 +29,12 @@ class Settings(BaseSettings):
     
     frontend_url: str = "http://localhost:8000"
 
+    # S3 Configuration
+    # s3_bucket_name: str
+    # s3_region: str = "us-east-1"
+    # s3_access_key_id: SecretStr | None = None
+    # s3_secret_access_key: SecretStr | None = None
+    # s3_endpoint_url: str | None = None
+
+
 settings = Settings()
